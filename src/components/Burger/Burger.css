@@ -1,0 +1,29 @@
+.burger{
+    width: 250px;
+    margin: auto;
+    height: 250px;
+    /*overflow: scroll;*/
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;    
+}
+
+/*check screen width and height*/
+@media (min-width:300px) and (min-height:300px){
+    .burger{
+        width: 200px;
+        height: 200px;
+    }
+}
+@media (min-width:500px) and (min-height:400px){
+    .burger{
+        width: 400px;
+        height: 400px;
+    }
+}
+@media (min-width:1000px) and (min-height:1000px){
+    .burger{
+        width: 750px;
+        height: 750px;
+    }
+}
