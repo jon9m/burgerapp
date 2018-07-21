@@ -7,6 +7,8 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 
 import Input from '../../../components/UI/Input/Input';
 
+import { connect } from 'react-redux';
+
 class Contactdata extends Component {
     state = {
         orderForm: {
@@ -87,7 +89,7 @@ class Contactdata extends Component {
                 },
                 value: '',  //Bug here - always need to select the dropdown
                 validation: {
-                    
+
                 },
                 valid: true
             }
@@ -98,7 +100,7 @@ class Contactdata extends Component {
 
     orderhandler = (event) => {
         event.preventDefault();
-        console.log(this.props.ingredients);
+        console.log(this.props.ings);
 
         this.setState({
             loading: true
@@ -111,7 +113,7 @@ class Contactdata extends Component {
         }
 
         const orders = {
-            ingredients: this.props.ingredients,
+            ingredients: this.props.ings,
             price: this.props.price,
             orderData: formData
         }
@@ -225,4 +227,13 @@ class Contactdata extends Component {
         );
     }
 }
-export default Contactdata;
+
+
+const mapStateToProps = state => {
+    return {
+        ings: state.ingredients,
+        price: state.totalPrice
+    }
+}
+
+export default connect(mapStateToProps)(Contactdata);
