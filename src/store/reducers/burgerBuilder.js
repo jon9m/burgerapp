@@ -40,7 +40,12 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_INGREDIENT:
             return {
                 ...state,
-                ingredients: action.ingredients,
+                ingredients: {  //To fix the ingredient order error else csn use - ingredients: action.ingredients,
+                    salad: action.ingredients.salad,
+                    bacon: action.ingredients.bacon,
+                    cheese: action.ingredients.cheese,
+                    meat: action.ingredients.meat
+                },
                 error: false
             };
         case actionTypes.FETECH_INGREDIENT_FAIL:

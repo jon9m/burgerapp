@@ -4,10 +4,11 @@ import classes from './Contactdata.css';
 
 import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-
 import Input from '../../../components/UI/Input/Input';
-
 import { connect } from 'react-redux';
+import withErrorHandler from '../../../hoc/withErrorHandler/WithErrorHandler';
+
+import * as actions from '../../../store/actions/index';
 
 class Contactdata extends Component {
     state = {
@@ -16,7 +17,7 @@ class Contactdata extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeHolder: 'Your Name'
+                    placeholder: 'Your Name'
                 },
                 value: 'Malaka',
                 validation: {
@@ -29,7 +30,7 @@ class Contactdata extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeHolder: 'Street'
+                    placeholder: 'Street'
                 },
                 value: 'Latrobe Terrace',
                 validation: {
@@ -42,7 +43,7 @@ class Contactdata extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeHolder: 'ZIP'
+                    placeholder: 'ZIP'
                 },
                 value: '',
                 validation: {
@@ -57,7 +58,7 @@ class Contactdata extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeHolder: 'Country'
+                    placeholder: 'Country'
                 },
                 value: '',
                 validation: {
@@ -70,7 +71,7 @@ class Contactdata extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeHolder: 'E-Mail'
+                    placeholder: 'E-Mail'
                 },
                 value: '',
                 validation: {
@@ -94,17 +95,12 @@ class Contactdata extends Component {
                 valid: true
             }
         },
-        loading: false,
         isFormValid: false
     }
 
     orderhandler = (event) => {
         event.preventDefault();
         console.log(this.props.ings);
-
-        this.setState({
-            loading: true
-        });
 
         //Get form to update to DB
         const formData = {};
@@ -118,18 +114,7 @@ class Contactdata extends Component {
             orderData: formData
         }
 
-        axios.post('/orders.json', orders) //.json - firebase specific
-            .then((response) => {
-                this.setState({
-                    loading: false
-                });
-                this.props.history.push('/');
-            }).catch(err => {
-                console.log(err);
-                this.setState({
-                    loading: false
-                });
-            });
+        this.props.onOrderBurger(orders);
     }
 
     checkValidity(value, rules) {
@@ -215,7 +200,7 @@ class Contactdata extends Component {
                 <Button btnType="Success" clicked={this.orderhandler} disabled={!this.state.isFormValid}>ORDER HERE</Button>
             </form>
         );
-        if (this.state.loading) {
+        if (this.props.loading) {
             form = <Spinner></Spinner>
         }
 
@@ -231,9 +216,18 @@ class Contactdata extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice
+        ings: state.burgerBuilderReducer.ingredients,
+        price: state.burgerBuilderReducer.totalPrice,
+        loading: state.orderReducer.loading
     }
 }
 
-export default connect(mapStateToProps)(Contactdata);
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderBurger: (orderData) => {
+            dispatch(actions.purchaseBurger(orderData));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Contactdata, axios));

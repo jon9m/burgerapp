@@ -19,22 +19,9 @@ class BurgerBuilder extends Component {
 
     state = {
         purchasing: false
-        // ,
-        // loading: false,
-        // error: false
     }
 
     componentDidMount() {
-        // axios.get('https://react-burger-d4ef3.firebaseio.com/ingredients.json').then(response => {
-        //     this.setState({
-        //         ingredients: response.data
-        //     });
-        // }).catch(err => {
-        //     this.setState({
-        //         error: true
-        //     });
-        // });
-
         this.props.onInitIngredients();
     }
 
@@ -98,9 +85,6 @@ class BurgerBuilder extends Component {
                 </OrderSummary>
             );
         }
-        // if (this.state.loading) {
-        //     orderSummary = <Spinner></Spinner>
-        // }
 
         return (
             <Aux>
@@ -120,9 +104,9 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice,
-        error: state.error
+        ings: state.burgerBuilderReducer.ingredients,
+        price: state.burgerBuilderReducer.totalPrice,
+        error: state.burgerBuilderReducer.error
     }
 }
 const mapDispatchToProps = dispatch => {
