@@ -1,17 +1,9 @@
-import * as actionTypes from './actions';
+import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    ingredients: {
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0
-    },
-    totalPrice: 0
-    // purchasable: false,
-    // purchasing: false,
-    // loading: false,
-    // error: false
+    ingredients: null,
+    totalPrice: 0,
+    error: false
 };
 
 const INGREDIENT_PRICES = {
@@ -44,6 +36,17 @@ const reducer = (state = initialState, action) => {
                     //action.ingredientName is the new property name to add
                 },
                 totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+            };
+        case actionTypes.SET_INGREDIENT:
+            return {
+                ...state,
+                ingredients: action.ingredients,
+                error: false
+            };
+        case actionTypes.FETECH_INGREDIENT_FAIL:
+            return {
+                ...state,
+                error: true
             };
         default:
             return state;
