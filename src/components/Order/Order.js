@@ -4,6 +4,8 @@ import classes from './Order.css'
 class Order extends Component {
     ingredients = [];
     render() {
+        this.ingredients = [];
+        
         for (let ingredientName in this.props.ingredients) {
             this.ingredients.push({ name: ingredientName, amount: this.props.ingredients[ingredientName] });
         }

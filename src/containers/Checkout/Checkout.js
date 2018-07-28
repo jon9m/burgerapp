@@ -14,12 +14,15 @@ class Checkout extends Component {
         this.props.history.replace('/checkout/contact-data');
     }
 
-
     render() {
         let summary = <Redirect to="/" />;
+
         if (this.props.ings) {
+            const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
+
             summary = (
                 <div>
+                    {purchasedRedirect}
                     <CheckoutSummary
                         checkoutCancelled={this.checkoutCancelledhandler}
                         checkoutContinued={this.checkoutContinuedhandler}
@@ -28,17 +31,18 @@ class Checkout extends Component {
                     <Route
                         path={this.props.match.path + '/contact-data'}
                         component={Contactdata}
-                    /></div>
+                    />
+                </div>
             );
         }
-
         return summary;
     }
 }
 
 const mapStateToProps = state => {
     return {
-        ings: state.burgerBuilderReducer.ingredients
+        ings: state.burgerBuilderReducer.ingredients,
+        purchased: state.orderReducer.purchased
     }
 };
 
