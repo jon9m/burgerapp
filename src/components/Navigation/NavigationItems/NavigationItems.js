@@ -7,6 +7,9 @@ const navigationItems = (props) => (
         {/*<NavigationItem navlocation="/" active="true">Burger Builder</NavigationItem>*/}
         <NavigationItem exactproperty navlocation="/">Burger Builder</NavigationItem>
         <NavigationItem navlocation="/orders" >Orders</NavigationItem>
+        {
+            (!props.isAuthenticated) ? <NavigationItem navlocation="/auth" >Login</NavigationItem> : <NavigationItem navlocation="/logout" >Logout</NavigationItem>
+        }
     </ul>
 );
 export default navigationItems;
